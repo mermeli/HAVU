@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Brasserie Havu</title>
+
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="css/lightbox.min.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href="https://fonts.googleapis.com/css?family=Enriqueta:700" rel="stylesheet">
+  <script src="js/lightbox.min.js"></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#inverseNavbar1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+</div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="inverseNavbar1">
+      <ul class="nav navbar-nav">
+        <li><a href="etatehtava.html">Etusivu<span class="sr-only">(current)</span></a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="brunssi.html">Brunssi</a></li>
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="poytavaraus.html">Pöytävaraus</a></li>
+        <li><a href="otayhteytta.html">Ota yhteyttä</a></li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container-fluid -->
+</nav>
+<script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.js" type="text/javascript"></script>
+
+<img style="margin:0px auto;display:block; padding-bottom: 10px" src="images/etulogo.png"> 
+
+<h1 id="otsikko2" align="center">Yhteydenottolomake</h1>
+
+
+<div id="yhtis" align="center"><h3>Ole meihin yhteydessä alla olevalla lomakkeella.</h3></div>
+
+
+<div class="row" id="yhtform">
+  <div class="col-lg-6">
+  <form>
+  Viesti: <br>
+  <textarea id="viesti"></textarea>
+  <br><br>
+  <button id="submitBtn" onClick="submitClick()">Lähetä</button>
+  
+  </form></div>
+  
+  
+  <div class="col-lg-6" id="viestiketju">
+  <h3>Viestit</h3>
+  
+  </div>
+  
+</div>
+
+<img style="margin:0px auto;display:block;" src="images/quill.jpg" id="quill">
+
+
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script> 
+
+<script src="https://www.gstatic.com/firebasejs/3.3.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAhMpUnKXbyOwY-_gh_8B7JEu6jsNh7U4s",
+    authDomain: "why-am-i-here-eb38e.firebaseapp.com",
+    databaseURL: "https://why-am-i-here-eb38e.firebaseio.com",
+    storageBucket: "",
+    messagingSenderId: "194801421637"
+  };
+  firebase.initializeApp(config); 
+// oma koodi
+var mainText = document.getElementById("viesti") ;
+var submitBtn = document.getElementById("submitBtn");
+var fireHeading = document.getElementById("otsikko");
+
+
+// tekstin haku:
+
+var rootRef = firebase.database().ref().child('viestit');
+
+rootRef.on('child_added', snap => {
+
+   var viesti = snap.child("viesti").val();
+
+$("#viestiketju").append("<p>" + viesti + "</p>");
+
+});    
+// h1-otsikon hakeminen
+var firebaseHeadingRef = firebase.database().ref().child("heading");
+
+firebaseHeadingRef.on('value', function(datasnapshot){
+fireHeading.innerText=datasnapshot.val();
+});
+
+function submitClick(){
+    
+    // tekstin tallennus:
+    
+    var firebaseRef = firebase.database().ref();
+    var teksti = mainText.value;
+    firebaseRef.child("viestit").push().child("viesti").set(teksti);
+
+    
+}
+ </script> 
+ 
+
+ 
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+  
+  <div class="panel-footer">
+  
+  <h1 align="center" style="color:white">Yhteystiedot</h1>
+  <h4 align="center" style="color:white">Ratapihantie 13, 00520 Helsinki</h4>
+  <h4 align="center" style="color:white">tel. +358 60 666 666</h4>
+  <h4 align="center" style="color:white">email: contact@brasseriehavu.com </h4>
+  <div align="center"><img src="images/social.png" style="padding-top:10px; padding-bottom:10px"></div>
+  <div align="center"><img src="images/logo5.png" style="padding-top:10px; padding-bottom:10px"></div>
+  
+  
+  
+  </div>
+  
+ 
+ 
+  
+  <script src="js/lightbox.js"></script>
+</body>
+
+</html>
